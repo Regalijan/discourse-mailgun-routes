@@ -13,7 +13,7 @@ class MailgunRoutesController < ApplicationController
 
     params.require([:timestamp, :token, :signature, 'body-mime'])
 
-    if params[:signature] !=OpenSSL::HMAC.hexdigest(
+    if params[:signature] != OpenSSL::HMAC.hexdigest(
       OpenSSL::Digest::SHA256.new,
       SiteSetting.mailgun_api_key,
       [params[:timestamp], params[:token]].join
