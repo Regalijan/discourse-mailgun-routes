@@ -8,7 +8,7 @@ class MailgunRoutesController < ApplicationController
 
   def receive
     if SiteSetting.mailgun_api_key.blank?
-      render json: { :error => 'Receiving disabled' }, status: 406
+      return render json: { :error => 'Receiving disabled' }, status: 406
     end
 
     params.require([:timestamp, :token, :signature, 'body-mime'])
@@ -18,7 +18,7 @@ class MailgunRoutesController < ApplicationController
       SiteSetting.mailgun_api_key,
       [params[:timestamp], params[:token]].join
     )
-      render json: { :error => 'Signature invalid' }, status: 406
+      return render json: { :error => 'Signature invalid' }, status: 406
     end
 
     email_raw = params['body-mime']
@@ -30,7 +30,7 @@ class MailgunRoutesController < ApplicationController
       spam_score_header = email_raw.match(/^X-Mailgun-Sscore: (-?\d{1,2}\.?\d?)/im)
 
       if not spam_flag_header or not spam_score_header
-        render json: { :error => 'Missing spam headers' }, status: 406
+        return render json: { :error => 'Missing spam headers' }, status: 406
       end
 
       dkim_header = email_raw.match(/X-Mailgun-Dkim-Check-Result: (Fail|Pass)/im)
@@ -40,7 +40,7 @@ class MailgunRoutesController < ApplicationController
       if not dkim_header and
         not dkim_exclusions.include?(email_domain) or
         dkim_header.captures[0].downcase == "fail"
-        render json: { :error => 'DKIM did not validate' }, status: 406
+        return render json: { :error => 'DKIM did not validate' }, status: 406
       end
 
       spf_header = email_raw.match(/^X-Mailgun-Spf: \w+/im)
@@ -49,14 +49,14 @@ class MailgunRoutesController < ApplicationController
       if not spf_header and
         not spf_exclusions.include?(email_domain) or
         spf_header.captures[0].downcase != "pass"
-        render json: { :error => 'SPF did not validate' }, status: 406
+        return render json: { :error => 'SPF did not validate' }, status: 406
       end
 
       if spam_detect_method == "flag" and
         spam_flag_header.captures[0].downcase == "yes" or
         spam_detect_method == "score" and
         spam_score_header.captures[0].to_f >= SiteSetting.mailgun_spam_score
-        render json: { :error => 'Spam detected' }, status: 406
+        return render json: { :error => 'Spam detected' }, status: 406
       end
     end
 
