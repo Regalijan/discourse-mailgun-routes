@@ -43,7 +43,7 @@ class MailgunRoutesController < ApplicationController
         return render json: { :error => 'DKIM did not validate' }, status: 406
       end
 
-      spf_header = email_raw.match(/^X-Mailgun-Spf: \w+/im)
+      spf_header = email_raw.match(/^X-Mailgun-Spf: (\w+)/im)
       spf_exclusions = SiteSetting.spf_domain_exclusions.split("|")
 
       if not spf_header and
