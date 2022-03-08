@@ -31,3 +31,7 @@ plugins:
     default: ""
     type: list
     list_type: simple
+
+  mailgun_log_rejections:
+    client: false
+    default: false
