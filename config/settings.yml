@@ -25,3 +25,9 @@ plugins:
     default: ""
     type: list
     list_type: simple
+
+  mailgun_blocked_domains:
+    client: false
+    default: ""
+    type: list
+    list_type: simple
