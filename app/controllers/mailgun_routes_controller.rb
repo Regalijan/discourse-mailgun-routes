@@ -83,7 +83,7 @@ class MailgunRoutesController < ApplicationController
     end
 
     begin
-      Jobs.enqueue(:process_email, mail: email_raw, retry_on_rate_limit: true, source: :handle_mail)
+      Jobs.enqueue(:process_email, mail: email_raw, retry_on_rate_limit: true, source: "handle_mail")
     rescue JSON::GeneratorError, Encoding::UndefinedConversionError => e
       if not retried
         email_raw = email_raw.force_encoding('iso-8859-1').encode("UTF-8")
