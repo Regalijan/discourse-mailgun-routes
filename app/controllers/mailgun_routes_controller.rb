@@ -27,6 +27,7 @@ class MailgunRoutesController < ApplicationController
     should_log = SiteSetting.mailgun_log_rejections
     spam_detect_method = SiteSetting.mailgun_spam_detection
     blocked_domains = SiteSetting.mailgun_blocked_domains.split("|")
+    neutral_should_pass = SiteSetting.mailgun_consider_neutral_passing
     email_rejection_template = "Email from #{params[:from]} rejected because"
 
     if blocked_domains.include?(email_domain)
@@ -64,7 +65,10 @@ class MailgunRoutesController < ApplicationController
 
       if not spf_header and
         not spf_exclusions.include?(email_domain) or
+        spf_header.captures[0].downcase == "fail" or
+        !neutral_should_pass and
         spf_header.captures[0].downcase != "pass"
+        
         if should_log
           Rails.logger.info "#{email_rejection_template} SPF validation failed and domain is not excluded"
         end
