@@ -35,3 +35,7 @@ plugins:
   mailgun_log_rejections:
     client: false
     default: false
+
+  mailgun_consider_neutral_passing:
+    client: false
+    default: true

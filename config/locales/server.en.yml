@@ -2,6 +2,7 @@ en:
   site_settings:
     dkim_domain_exclusions: "List of domains to exclude from DKIM validation. Only touch this if you know what it does."
     mailgun_blocked_domains: "List of domains to never allow emails from."
+    mailgun_consider_neutral_passing = "Whether an SPF status of neutral should be considered passing by the plugin. Only touch this if you know what it does."
     mailgun_log_rejections: "Log rejected emails and reasons of rejection."
     mailgun_spam_detection: |-
       Spam detection method to use. See <a href="https://documentation.mailgun.com/en/latest/user_manual.html#spam-filter">Mailgun's documentation</a> for more information.
