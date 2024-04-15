@@ -3,8 +3,8 @@
 # name: discourse-mailgun-routes
 # about: Accept inbound email using mailgun routes
 # version: 0.2
-# author: Wolftallemo
-# url: https://github.com/Wolftallemo/discourse-mailgun-routes
+# author: Regalijan
+# url: https://github.com/Regalijan/discourse-mailgun-routes
 
 after_initialize do
   require File.expand_path('../app/controllers/mailgun_routes_controller', __FILE__)
