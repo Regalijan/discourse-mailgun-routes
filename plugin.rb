@@ -2,7 +2,7 @@
 
 # name: discourse-mailgun-routes
 # about: Accept inbound email using mailgun routes
-# version: 0.2
+# version: 1.0.0
 # authors: Regalijan
 # url: https://github.com/Regalijan/discourse-mailgun-routes
 
