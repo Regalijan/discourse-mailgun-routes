@@ -4,6 +4,7 @@
 # about: Accept inbound email using mailgun routes
 # version: 1.0.0
 # authors: Regalijan
+# meta_topic_id: 210609
 # url: https://github.com/Regalijan/discourse-mailgun-routes
 
 after_initialize do
