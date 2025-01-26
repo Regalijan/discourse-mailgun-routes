@@ -8,7 +8,7 @@ class MailgunRoutesController < ApplicationController
 
   def receive
     if SiteSetting.mailgun_api_key.blank?
-      return render json: { :error => 'Receiving disabled' }, status: 406
+      return render json: { :error => 'Receiving disabled' }, status: 503
     end
 
     params.require([:timestamp, :token, :signature, 'body-mime'])
@@ -18,7 +18,7 @@ class MailgunRoutesController < ApplicationController
       SiteSetting.mailgun_api_key,
       [params[:timestamp], params[:token]].join
     )
-      return render json: { :error => 'Signature invalid' }, status: 406
+      return render json: { :error => 'Signature invalid' }, status: 401
     end
 
     email_raw = params['body-mime']
